@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profissionais — Alta Patrimonial</title>
+  <meta name="description" content="Critérios e transparência na conexão com profissionais." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{ --bg:#F6F5F1; --deep:#0F2E2B; --gold:#B08A3A; }
+    html,body{ font-family:Inter,system-ui; background:var(--bg); color:#111827; }
+    .font-serif{ font-family:Fraunces, ui-serif, Georgia, serif; }
+    .shadow-soft{ box-shadow: 0 18px 60px rgba(17,24,39,.08); }
+  </style>
+</head>
+<body>
+  <header class="border-b border-black/5 bg-[var(--bg)]/80 backdrop-blur">
+    <div class="mx-auto max-w-4xl px-5 py-5 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-4">
+        <div class="h-16 w-16 rounded-3xl bg-white border border-black/5 overflow-hidden">
+          <img src="logo.png" class="h-full w-full object-contain p-2" onerror="this.style.display='none'">
+        </div>
+        <div class="leading-tight">
+          <div class="text-[15px] font-semibold">Alta Patrimonial</div>
+          <div class="text-[12px] text-black/55">Clareza patrimonial</div>
+        </div>
+      </a>
+      <a href="index.html" class="rounded-xl px-3 py-2 text-[13px] font-semibold border border-black/10 bg-white/70 hover:bg-white">Voltar</a>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-4xl px-5 py-10">
+    <h1 class="text-3xl md:text-4xl font-serif font-semibold">Profissionais validados</h1>
+    <p class="mt-3 text-[14px] text-black/60">
+      A plataforma pode sugerir perfis adequados ao diagnóstico — com transparência de critérios.
+    </p>
+
+    <div class="mt-8 grid gap-4 md:grid-cols-2">
+      <div class="rounded-2xl border border-black/10 bg-white/90 p-6 shadow-soft">
+        <div class="text-[13px] font-semibold">Critérios de validação (base)</div>
+        <ul class="mt-3 space-y-2 text-[13px] text-black/70">
+          <li>• Reputação, histórico e consistência operacional</li>
+          <li>• Clareza de mandato e alinhamento com objetivos do cliente</li>
+          <li>• Transparência de taxas, custos e modelo de remuneração</li>
+          <li>• Processo de suitability e documentação</li>
+          <li>• Estrutura de atendimento e governança</li>
+        </ul>
+        <div class="mt-3 text-[12px] text-black/45">
+          (MVP) Os critérios evoluem conforme o produto e feedback dos usuários.
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-black/10 bg-white/90 p-6 shadow-soft">
+        <div class="text-[13px] font-semibold">Transparência</div>
+        <p class="mt-3 text-[13px] text-black/70 leading-relaxed">
+          A Alta Patrimonial não faz recomendação automática de investimentos e não indica produtos específicos.
+          Sempre que houver encaminhamento, buscamos transparência de critérios e do modelo de remuneração.
+        </p>
+        <div class="mt-4 rounded-xl border border-black/10 p-4 bg-[rgba(176,138,58,.08)]">
+          <div class="text-[12px] text-black/70">
+            Foco: <b>preservação patrimonial</b>, <b>crescimento consciente</b> e <b>clareza</b>.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 rounded-2xl border border-black/10 bg-white/90 p-6 shadow-soft">
+      <div class="text-[13px] font-semibold">Quer encaminhamento sugerido?</div>
+      <p class="mt-2 text-[13px] text-black/70">
+        Faça o diagnóstico e receba o retorno por e-mail.
+      </p>
+      <div class="mt-4">
+        <a href="index.html" class="inline-flex items-center rounded-xl px-4 py-3 text-[13px] font-semibold" style="background:var(--deep); color:#fff;">
+          Ir para o diagnóstico
+        </a>
+        <a href="contato.html" class="ml-2 inline-flex items-center rounded-xl px-4 py-3 text-[13px] font-semibold border border-black/10 bg-white/70 hover:bg-white">
+          Entre em contato
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-black/5 bg-white/60">
+    <div class="mx-auto max-w-4xl px-5 py-8 text-[12px] text-black/50">
+      © <span id="year"></span> Alta Patrimonial.
+    </div>
+  </footer>
+
+  <script>document.getElementById("year").textContent = String(new Date().getFullYear());</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Privacidade — Alta Patrimonial</title>
+  <meta name="description" content="Política de privacidade da Alta Patrimonial." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{ --bg:#F6F5F1; }
+    html,body{ font-family:Inter,system-ui; background:var(--bg); color:#111827; }
+    .font-serif{ font-family:Fraunces, ui-serif, Georgia, serif; }
+    .shadow-soft{ box-shadow: 0 18px 60px rgba(17,24,39,.08); }
+  </style>
+</head>
+<body>
+  <header class="border-b border-black/5 bg-[var(--bg)]/80 backdrop-blur">
+    <div class="mx-auto max-w-4xl px-5 py-5 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-4">
+        <div class="h-16 w-16 rounded-3xl bg-white border border-black/5 overflow-hidden">
+          <img src="logo.png" class="h-full w-full object-contain p-2" onerror="this.style.display='none'">
+        </div>
+        <div class="leading-tight">
+          <div class="text-[15px] font-semibold">Alta Patrimonial</div>
+          <div class="text-[12px] text-black/55">Clareza patrimonial</div>
+        </div>
+      </a>
+      <a href="index.html" class="rounded-xl px-3 py-2 text-[13px] font-semibold border border-black/10 bg-white/70 hover:bg-white">Voltar</a>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-4xl px-5 py-10">
+    <h1 class="text-3xl md:text-4xl font-serif font-semibold">Política de Privacidade</h1>
+    <p class="mt-3 text-[14px] text-black/60">Versão MVP. Ajustaremos conforme o produto evoluir.</p>
+
+    <div class="mt-8 space-y-6 text-[14px] text-black/70 leading-relaxed rounded-2xl border border-black/10 bg-white/90 p-6 shadow-soft">
+      <section>
+        <h2 class="font-semibold">1) Dados coletados</h2>
+        <p>Na simulação, os cálculos rodam no seu navegador e não exigem cadastro. Caso você envie o diagnóstico, coletamos nome, e-mail e respostas do formulário para retorno e melhoria do produto.</p>
+      </section>
+
+      <section>
+        <h2 class="font-semibold">2) Finalidade</h2>
+        <p>Usamos os dados para: (i) responder o diagnóstico solicitado, (ii) melhorar a experiência do usuário e (iii) oferecer encaminhamento qualificado quando solicitado.</p>
+      </section>
+
+      <section>
+        <h2 class="font-semibold">3) Compartilhamento</h2>
+        <p>Podemos compartilhar informações estritamente necessárias com parceiros/profissionais apenas se você solicitar encaminhamento. Buscamos transparência de critérios e de modelo de remuneração.</p>
+      </section>
+
+      <section>
+        <h2 class="font-semibold">4) Segurança e retenção</h2>
+        <p>Adotamos medidas razoáveis de segurança e retemos dados pelo tempo necessário para a finalidade descrita. Você pode solicitar exclusão.</p>
+      </section>
+
+      <section>
+        <h2 class="font-semibold">5) Contato</h2>
+        <p>Para falar com a plataforma, use a página <a class="underline" href="contato.html">Entre em contato</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="border-t border-black/5 bg-white/60">
+    <div class="mx-auto max-w-4xl px-5 py-8 text-[12px] text-black/50">
+      © <span id="year"></span> Alta Patrimonial.
+    </div>
+  </footer>
+
+  <script>document.getElementById("year").textContent = String(new Date().getFullYear());</script>
+</body>
+</html>

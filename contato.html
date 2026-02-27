@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contato — Alta Patrimonial</title>
+  <meta name="description" content="Contato da Alta Patrimonial." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{ --bg:#F6F5F1; --deep:#0F2E2B; }
+    html,body{ font-family:Inter,system-ui; background:var(--bg); color:#111827; }
+    .font-serif{ font-family:Fraunces, ui-serif, Georgia, serif; }
+    .shadow-soft{ box-shadow: 0 18px 60px rgba(17,24,39,.08); }
+    .btn{ background:var(--deep); color:white; }
+    .btn:hover{ filter: brightness(1.06); }
+  </style>
+</head>
+<body>
+  <header class="border-b border-black/5 bg-[var(--bg)]/80 backdrop-blur">
+    <div class="mx-auto max-w-4xl px-5 py-5 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-4">
+        <div class="h-16 w-16 rounded-3xl bg-white border border-black/5 overflow-hidden">
+          <img src="logo.png" class="h-full w-full object-contain p-2" onerror="this.style.display='none'">
+        </div>
+        <div class="leading-tight">
+          <div class="text-[15px] font-semibold">Alta Patrimonial</div>
+          <div class="text-[12px] text-black/55">Clareza patrimonial</div>
+        </div>
+      </a>
+      <a href="index.html" class="rounded-xl px-3 py-2 text-[13px] font-semibold border border-black/10 bg-white/70 hover:bg-white">Voltar</a>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-4xl px-5 py-10">
+    <h1 class="text-3xl md:text-4xl font-serif font-semibold">Entre em contato</h1>
+    <p class="mt-3 text-[14px] text-black/60">
+      Se quiser falar diretamente, use o botão abaixo. Você também pode solicitar um diagnóstico pela plataforma.
+    </p>
+
+    <div class="mt-8 rounded-2xl border border-black/10 bg-white/90 p-6 shadow-soft">
+      <div class="text-[13px] font-semibold">Contato rápido</div>
+      <div class="mt-2 text-[13px] text-black/60">
+        Abrimos seu aplicativo de e-mail com uma mensagem pronta.
+      </div>
+
+      <div class="mt-5 flex flex-wrap gap-3">
+        <button id="btnEmail" class="rounded-xl px-4 py-3 text-[13px] font-semibold btn">
+          Enviar e-mail
+        </button>
+        <a href="index.html#simulador" class="rounded-xl px-4 py-3 text-[13px] font-semibold border border-black/10 bg-white/70 hover:bg-white">
+          Ir para o simulador
+        </a>
+      </div>
+
+      <div class="mt-4 text-[12px] text-black/45">
+        Observação: não mostramos o e-mail no site para reduzir spam automático.
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-black/5 bg-white/60">
+    <div class="mx-auto max-w-4xl px-5 py-8 text-[12px] text-black/50">
+      © <span id="year"></span> Alta Patrimonial.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = String(new Date().getFullYear());
+
+    // Email ofuscado (não fica legível no HTML)
+    const parts = ["thomaz_vieira", "hotmail", "com"];
+    const to = parts[0] + "@" + parts[1] + "." + parts[2];
+
+    document.getElementById("btnEmail").addEventListener("click", () => {
+      const subject = encodeURIComponent("Contato — Alta Patrimonial");
+      const body = encodeURIComponent("Olá Thomaz,\n\nQuero falar sobre a Alta Patrimonial.\n\n— Enviado pelo site");
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    });
+  </script>
+</body>
+</html>
