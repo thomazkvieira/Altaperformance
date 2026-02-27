@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Alta Patrimonial</title>
+  <meta name="description" content="Plataforma de clareza patrimonial: simulação, diagnóstico e conexão com profissionais validados." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3"></script>
+
+  <style>
+    :root{
+      --bg:#F6F5F1;
+      --paper:#FFFFFF;
+      --ink:#111827;
+      --muted:#6B7280;
+      --line:rgba(17,24,39,.10);
+      --deep:#0F2E2B;   /* verde profundo */
+      --gold:#B08A3A;   /* dourado discreto */
+    }
+    html,body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    .font-serif{ font-family: Fraunces, ui-serif, Georgia, serif; }
+    .shadow-soft{ box-shadow: 0 18px 60px rgba(17,24,39,.08); }
+    .shadow-card{ box-shadow: 0 10px 40px rgba(17,24,39,.06); }
+    .ring-focus:focus{ outline:none; box-shadow: 0 0 0 4px rgba(15,46,43,.12); border-color: rgba(17,24,39,.20); }
+    .btn-primary{ background: var(--deep); color:#fff; }
+    .btn-primary:hover{ filter: brightness(1.06); }
+    .btn-secondary{ border:1px solid rgba(176,138,58,.55); color: var(--deep); background: rgba(255,255,255,.92); }
+    .btn-secondary:hover{ background: rgba(255,255,255,1); }
+    .chip{ border:1px solid var(--line); background: rgba(255,255,255,.75); }
+    .divider{ height:1px; background: var(--line); }
+    .modal-backdrop{ background: rgba(17,24,39,.55); }
+    .kbd{ border:1px solid rgba(17,24,39,.12); background: rgba(255,255,255,.8); padding:.12rem .35rem; border-radius:.45rem; font-size:12px; color: rgba(17,24,39,.7); }
+    .anchor{ scroll-margin-top: 96px; }
+    .link{ color: rgba(17,24,39,.75); }
+    .link:hover{ color: rgba(15,46,43,1); }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="sticky top-0 z-30 border-b border-black/5 bg-[var(--bg)]/80 backdrop-blur">
+    <div class="mx-auto max-w-6xl px-5 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="h-14 w-14 md:h-16 md:w-16 rounded-2xl bg-white border border-black/5 shadow-card flex items-center justify-center overflow-hidden">
+          <img src="logo.png" alt="Alta Patrimonial" class="h-full w-full object-contain" onerror="this.style.display='none'">
+        </div>
+        <div class="leading-tight">
+          <div class="text-[14px] md:text-[15px] font-semibold tracking-wide">Alta Patrimonial</div>
+          <div class="text-[12px] md:text-[13px] text-black/55">Clareza patrimonial</div>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-2">
+        <a href="#quem-somos" class="rounded-xl px-3 py-2 text-[13px] font-medium border border-black/10 bg-white/70 hover:bg-white">Quem somos</a>
+        <a href="#pilares" class="rounded-xl px-3 py-2 text-[13px] font-medium border border-black/10 bg-white/70 hover:bg-white">Pilares</a>
+        <a href="#como-funciona" class="rounded-xl px-3 py-2 text-[13px] font-medium border border-black/10 bg-white/70 hover:bg-white">Como funciona</a>
+        <a href="#profissionais" class="rounded-xl px-3 py-2 text-[13px] font-medium border border-black/10 bg-white/70 hover:bg-white">Profissionais</a>
+        <a href="#simulador" class="rounded-xl px-3 py-2 text-[13px] font-semibold btn-secondary">Simulador</a>
+        <button id="OpenDiagTop" class="rounded-xl px-3 py-2 text-[13px] font-semibold btn-secondary">Diagnóstico</button>
+        <a href="#privacidade" class="rounded-xl px-3 py-2 text-[13px] font-medium border border-black/10 bg-white/70 hover:bg-white">Privacidade</a>
+      </nav>
+
+      <div class="md:hidden flex items-center gap-2">
+        <a href="#simulador" class="rounded-xl px-3 py-2 text-[13px] font-semibold btn-secondary">Simular</a>
+        <button id="OpenDiagTopMobile" class="rounded-xl px-3 py-2 text-[13px] font-semibold btn-secondary">Diagnóstico</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-5 py-10">
+    <!-- HERO -->
+    <section class="grid gap-6 md:grid-cols-12 items-start">
+      <div class="md:col-span-7">
+        <div class="text-[12px] font-medium text-black/55 tracking-wide">PLATAFORMA PATRIMONIAL</div>
+        <h1 class="mt-3 text-3xl md:text-4xl font-serif font-semibold leading-tight">
+          Inteligência patrimonial para decisões consistentes
+        </h1>
+        <p class="mt-3 text-[14px] text-black/60 leading-relaxed max-w-2xl">
+          Simule cenários de construção e sustentação do patrimônio e visualize, com clareza,
+          o impacto de retiradas, tempo e inflação no longo prazo.
+        </p>
+
+        <div class="mt-5 flex flex-wrap gap-3 items-center">
+          <a href="#simulador" class="rounded-xl px-4 py-3 text-[13px] font-semibold btn-primary shadow-card">
+            Iniciar simulação
+          </a>
+          <a href="#como-funciona" class="rounded-xl px-4 py-3 text-[13px] font-semibold btn-secondary">
+            Ver como funciona
+          </a>
+          <span class="inline-flex items-center gap-2 text-[12px] text-black/45">
+            <span class="kbd">ESC</span> fecha o diagnóstico
+          </span>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-2">
+          <span class="chip rounded-full px-3 py-1 text-[12px] text-black/70"><b>Construção</b> e <b>Sustentação</b></span>
+          <span class="chip rounded-full px-3 py-1 text-[12px] text-black/70">Premissas explícitas</span>
+          <span class="chip rounded-full px-3 py-1 text-[12px] text-black/70">Comparação com inflação (opcional)</span>
+        </div>
+      </div>
+
+      <!-- Card lateral -->
+      <div class="md:col-span-5">
+        <div class="rounded-2xl border border-black/10 bg-white/80 shadow-soft p-5">
+          <div class="text-[13px] font-semibold text-black/70">O que entregamos</div>
+          <div class="divider my-4"></div>
+
+          <div class="space-y-4">
+            <div class="flex gap-3">
+              <div class="mt-1 h-2.5 w-2.5 rounded-full" style="background: var(--deep)"></div>
+              <div>
+                <div class="text-[13px] font-semibold">Simulação objetiva</div>
+                <div class="text-[12px] text-black/55 leading-relaxed">
+                  Projeções com cenários e indicadores de saúde do plano.
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-3">
+              <div class="mt-1 h-2.5 w-2.5 rounded-full" style="background: var(--gold)"></div>
+              <div>
+                <div class="text-[13px] font-semibold">Diagnóstico estruturado</div>
+                <div class="text-[12px] text-black/55 leading-relaxed">
+                  Leitura completa com base em perfil, objetivos e composição patrimonial.
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-3">
+              <div class="mt-1 h-2.5 w-2.5 rounded-full bg-black/40"></div>
+              <div>
+                <div class="text-[13px] font-semibold">Conexão com profissionais validados</div>
+                <div class="text-[12px] text-black/55 leading-relaxed">
+                  Encaminhamento conforme perfil, com transparência de critérios e foco em preservação e crescimento consciente.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 rounded-xl border border-black/10 bg-white p-4">
+            <div class="text-[12px] text-black/55 leading-relaxed">
+              A Alta Patrimonial não realiza recomendação automática de investimentos e não indica produtos específicos.
+              O objetivo é oferecer clareza e encaminhamento qualificado.
+            </div>
+          </div>
+
+          <div class="mt-4 flex gap-3">
+            <button id="OpenDiagHero" class="flex-1 rounded-xl px-4 py-3 text-[13px] font-semibold btn-secondary">
+              Solicitar diagnóstico
+            </button>
+            <a href="#simulador" class="flex-1 rounded-xl px-4 py-3 text-[13px] font-semibold btn-primary shadow-card text-center">
+              Simular agora
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUEM SOMOS -->
+    <section id="quem-somos" class="anchor mt-10">
+      <div class="rounded-2xl border border-black/10 bg-white/90 p-6 shadow-soft">
+        <div class="text-[12px] font-medium text-black/55 tracking-wide">QUEM SOMOS</div>
+        <h2 class="mt-2 text-2xl md:text-3xl font-serif font-semibold">Uma plataforma de clareza patrimonial</h2>
+        <p class="mt-3 text-[14px] text-black/60 leading-relaxed max-w-4xl">
+          A Alta Patrimonial foi criada para oferecer ao investidor uma leitura clara sobre evolução do patrimônio,
+          sustentabilidade do plano e coerência entre risco, retorno e tempo. Combinamos simulações objetivas,
+          diagnóstico estruturado e conexão com profissionais validados conforme o perfil diagnosticado.
+        </p>
+      </div>
+    </section>
+
+    <!-- PILARES -->
+    <section id="pilares" class="anchor mt-6 grid gap-4 md:grid-cols-3">
+      <div class="rounded-2xl border border-black/10 bg-white/90 p-5 shadow-soft">
+        <div class="text-[13px] font-semibold">Clareza</div>
+        <div class="mt-2 text-[13px] text-black/60 leading-relaxed">
+          Informação objetiva, premissas explícitas e leitura simples do que importa.
+        </div>
+      </div>
+      <div class="rounded-2xl border border-black/10 bg-white/90 p-5 shadow-soft">
+        <div class="text-[13px] font-semibold">Consistência</div>
+        <div class="mt-2 text-[13px] text-black/60 leading-relaxed">
+          Cenários comparáveis e critérios claros para avaliar sustentabilidade e preservação do poder de compra.
+        </div>
+      </div>
+      <div class="rounded-2xl border border-black/10 bg-white/90 p-5 shadow-soft">
+        <div class="text-[13px] font-semibold">Alinhamento</div>
+        <div class="mt-2 text-[13px] text-black/60 leading-relaxed">
+          Encaminhamento conforme perfil, com transparência de critérios e foco em preservação patrimonial e crescimento consciente.
+        </div>
+      </div>
+    </section>
+
+    <!-- COMO FUNCIONA -->
+    <section id="como-funciona" class="anchor mt-6">
+      <div class="rounded-2xl border border-black/10 bg-white/90 p-6 shadow-soft">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <div class="text-[12px] font-medium text-black/55 tracking-wide">COMO FUNCIONA</div>
+            <h3 class="mt-2 text-2xl font-serif font-semibold">Três etapas, uma jornada completa</h3>
+            <p class="mt-2 text-[14px] text-black/60 leading-relaxed max-w-4xl">
+              Comece com a simulação. Se desejar, aprofunde com diagnóstico estruturado e, ao final,
+              conecte-se a profissionais validados conforme o perfil diagnosticado — com transparência e critérios definidos.
+            </p>
+          </div>
+
+          <button id="OpenDiagHow" class="rounded-xl px-4 py-3 text-[13px] font-semibold btn-secondary">
+            Iniciar diagnóstico
+          </button>
+        </div>
+
+        <div class="mt-5 grid gap-4 md:grid-cols-3">
+          <div class="rounded-2xl border border-black/10 bg-[var(--bg)] p-5">
+            <div class="text-[12px] font-semibold text-black/70">1) Simulação objetiva</div>
+            <div class="mt-2 text-[13px] text-black/60 leading-relaxed">
+              Configure patrimônio, aportes/retiradas e horizonte. Visualize cenários e indicadores de saúde.
+            </div>
+          </div>
+          <div class="rounded-2xl border border-black/10 bg-[var(--bg)] p-5">
+            <div class="text-[12px] font-semibold text-black/70">2) Diagnóstico estruturado</div>
+            <div class="mt-2 text-[13px] text-black/60 leading-relaxed">
+              Questionário com composição patrimonial, diversificação, exposição internacional e estrutura de vida.
+            </div>
+          </div>
+          <div class="rounded-2xl border border-black/10 bg-[var(--bg)] p-5">
+            <div class="text-[12px] font-semibold text-black/70">3) Conexão qualificada</div>
+            <div class="mt-2 text-[13px] text-black/60 leading-relaxed">
+              Encaminhamento a profissionais validados conforme perfil e objetivos, com foco em preservação e crescimento consciente.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFISSIONAIS + CRITÉRIOS -->
+    <section id="profissionais" class="anchor mt-6">
+      <div class="rounded-2xl border border-black/10 bg-white/90 p-6 shadow-soft">
+        <div class="text-[12px] font-medium text-black/55 tracking-wide">PROFISSIONAIS</div>
+        <h3 class="mt-2 text-2xl font-serif font-semibold">Conexão com profissionais validados</h3>
+        <p class="mt-2 text-[14px] text-black/60 leading-relaxed max-w-4xl">
+          Após o diagnóstico, a plataforma pode sugerir caminhos e perfis de especialistas adequados ao seu contexto
+          (ex.: planejamento patrimonial, gestão discricionária, estruturação, sucessão, proteção e diversificação internacional).
+        </p>
+
+        <div class="mt-5 grid gap-4 md:grid-cols-2">
+          <!-- Critérios -->
+          <div class="rounded-2xl border border-black/10 bg-[var(--bg)] p-5">
+            <div class="text-[13px] font-semibold text-black/70">Critérios de validação (base)</div>
+            <ul class="mt-3 space-y-2 text-[13px] text-black/60">
+              <li>• Histórico, reputação e consistência operacional</li>
+              <li>• Clareza de mandato e alinhamento com objetivos do cliente</li>
+              <li>• Transparência de taxas, custos e forma de remuneração</li>
+              <li>• Processo de suitability e documentação adequada</li>
+              <li>• Estrutura de atendimento e governança</li>
+            </ul>
+            <div class="mt-3 text-[12px] text-black/45">
+              (MVP) Os critérios evoluem com o produto e com feedback de usuários.
+            </div>
+          </div>
+
+          <!-- Transparência -->
+          <div class="rounded-2xl border border-black/10 bg-[var(--bg)] p-5">
+            <div class="text-[13px] font-semibold text-black/70">Transparência e conflitos</div>
+            <p class="mt-3 text-[13px] text-black/60 leading-relaxed">
+              A Alta Patrimonial busca operar com transparência de critérios e modelos de remuneração.
+              Sempre que houver encaminhamento, a plataforma pode informar se existe ou não relação comercial,
+              e em quais condições.
+            </p>
+            <div class="mt-4 rounded-xl border border-black/10 bg-white p-4">
+              <div class="text-[12px] text-black/60 leading-relaxed">
+                Importante: a plataforma não realiza recomendação automática de investimentos e não substitui
+                aconselhamento profissional individualizado.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+          <div class="text-[12px] text-black/50">
+            Quer receber a leitura estruturada e encaminhamento sugerido?
+          </div>
+          <button id="OpenDiagPros" class="rounded-xl px-4 py-3 text-[13px] font-semibold btn-secondary">
+            Solicitar diagnóstico
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIMULADOR -->
+    <section id="simulador" class="anchor mt-10 grid gap-6 md:grid-cols-5">
+      <!-- Inputs -->
+      <div class="md:col-span-2">
+        <div class="rounded-2xl border border-black/10 bg-white/90 p-5 shadow-soft">
+          <div class="flex items-center justify-between">
+            <div class="text-[13px] font-semibold text-black/70">Simulação</div>
+            <div class="inline-flex rounded-xl border border-black/10 bg-white p-1">
+              <button id="btnBuild" class="rounded-lg px-4 py-2 text-[13px] font-semibold transition text-black/60 hover:bg-black/5">Construção</button>
+              <button id="btnSustain" class="rounded-lg px-4 py-2 text-[13px] font-semibold transition text-white" style="background:var(--deep)">Sustentação</button>
+            </div>
+          </div>
+
+          <div class="mt-4 space-y-4">
+            <div>
+              <label class="mb-1 block text-[12px] font-medium text-black/60">Patrimônio atual</label>
+              <input id="P0" class="h-[44px] w-full rounded-xl border border-black/10 bg-white px-3 text-[13px] ring-focus" placeholder="Ex.: 16000000" />
+              <div class="mt-1 text-[12px] text-black/40">Digite números — formatação automática em moeda.</div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+              <div class="col-span-2">
+                <label id="cfLabel" class="mb-1 block text-[12px] font-medium text-black/60">Retirada</label>
+                <input id="CF" class="h-[44px] w-full rounded-xl border border-black/10 bg-white px-3 text-[13px] ring-focus" placeholder="Ex.: 80000" />
+              </div>
+              <div class="col-span-1">
+                <label class="mb-1 block text-[12px] font-medium text-black/60">Periodicidade</label>
+                <select id="CFPeriod" class="h-[44px] w-full rounded-xl border border-black/10 bg-white px-3 text-[13px] ring-focus">
+                  <option value="mensal" selected>Mensal</option>
+                  <option value="anual">Anual</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="StepFields" class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="mb-1 block text-[12px] font-medium text-black/60">Retirada mensal 2º ano (opcional)</label>
+                <input id="CFY2" class="h-[44px] w-full rounded-xl border border-black/10 bg-white px-3 text-[13px] ring-focus" placeholder="Ex.: 100000" />
+              </div>
+              <div>
+                <label class="mb-1 block text-[12px] font-medium text-black/60">Retirada mensal 3º ano+ (opcional)</label>
+                <input id="CFY3" class="h-[44px] w-full rounded-xl border border-black/10 bg-white px-3 text-[13px] ring-focus" placeholder="Ex.: 120000" />
+              </div>
+            </div>
+
+            <div>
+              <label class="mb-1 block text-[12px] font-medium text-black/60">Horizonte (anos)</label>
+              <input id="Years" type="number" min="1" max="40" class="h-[44px] w-full rounded-xl border border-black/10 bg-white px-3 text-[13px] ring-focus" placeholder="Ex.: 20" />
+            </div>
+
+            <div class="rounded-2xl border border-black/10 bg-[var(--bg)] p-4">
+              <div class="text-[13px] font-semibold text-black/70">Cenários de retorno (% a.a.)</div>
+              <div class="mt-2 grid grid-cols-3 gap-3">
+                <div>
+                  <label class="mb-1 block text-[12px] font-medium text-black/60">Conservador</label>
+                  <input id="Rcons" class="h-[44px] w-full rounded-xl border border-black/10 bg-white px-3 text-[13px] ring-focus" placeholder="Ex.: 8" />
+                </div>
+                <div>
+                  <label class="mb-1 block text-[12px] font-medium text-black/60">Base</label>
+                  <input id="Rbase" class="h-[44px] w-full rounded-xl border border-black/10 bg-white px-3 text-[13px] ring-focus" placeholder="Ex.: 12" />
+                </div>
+                <div>
+                  <label class="mb-1 block text-[12px] font-medium text-black/60">Otimista</label>
+                  <input id="Ropt" class="h-[44px] w-full rounded-xl border border-black/10 bg-white px-3 text-[13px] ring-focus" placeholder="Ex.: 14" />
+                </div>
+              </div>
+              <div class="mt-2 text-[12px] text-black/45">
+                Você define os retornos. O cálculo usa taxa mensal equivalente e aplica o fluxo após o rendimento do mês.
+              </div>
+            </div>
+
+            <details class="rounded-xl border border-black/10 bg-white p-4">
+              <summary class="cursor-pointer text-[13px] font-semibold text-black/70">Comparar com inflação (opcional)</summary>
+              <div class="mt-3 grid grid-cols-2 gap-3">
+                <div>
+                  <label class="mb-1 block text-[12px] font-medium text-black/60">Inflação referência (% a.a.)</label>
+                  <input id="InflRef" class="h-[44px] w-full rounded-xl border border-black/10 bg-white px-3 text-[13px] ring-focus" placeholder="Ex.: 4" />
+                  <div class="mt-1 text-[12px] text-black/45">Somente comparação de poder de compra.</div>
+                </div>
+                <div class="flex items-end">
+                  <label class="flex h-[44px] w-full cursor-pointer items-center justify-between rounded-xl border border-black/10 bg-white px-3 text-[13px]">
+                    <span class="text-black/70">Mostrar linha inflação</span>
+                    <input id="ShowInfl" type="checkbox" class="h-4 w-4" style="accent-color: var(--deep)" checked />
+                  </label>
+                </div>
+              </div>
+            </details>
+
+            <button id="Run" class="w-full rounded-xl px-4 py-3 text-[13px] font-semibold btn-primary shadow-card">
+              Analisar cenário
+            </button>
+
+            <div class="text-[12px] text-black/45">
+              Nota: esta ferramenta não constitui recomendação de investimentos.
+            </div>
+          </div>
+        </div>
+
+        <div id="privacidade" class="anchor mt-4 rounded-2xl border border-black/10 bg-white/90 p-5 shadow-soft">
+          <div class="text-[13px] font-semibold text-black/70">Privacidade</div>
+          <div class="mt-2 text-[12px] leading-relaxed text-black/55">
+            A simulação roda no seu navegador. Não é necessário criar conta para usar.
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="md:col-span-3">
+        <div class="rounded-2xl border border-black/10 bg-white/90 p-5 shadow-soft">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <div class="text-[13px] font-semibold text-black/70">Resultado</div>
+              <div class="mt-2 flex items-center gap-3">
+                <div id="HealthEmoji" class="text-2xl font-semibold">—</div>
+                <div>
+                  <div id="HealthTitle" class="text-[13px] font-semibold">Aguardando análise</div>
+                  <div id="HealthDesc" class="text-[12px] text-black/55">Preencha os campos e clique em “Analisar cenário”.</div>
+                </div>
+              </div>
+            </div>
+
+            <button id="OpenDiagInResults" class="rounded-xl px-3 py-2 text-[13px] font-semibold btn-secondary">
+              Diagnóstico
+            </button>
+          </div>
+
+          <div class="mt-5 grid gap-3 md:grid-cols-3">
+            <div class="rounded-2xl border border-black/10 bg-white p-4">
+              <div id="Metric1Title" class="text-[12px] font-medium text-black/55">Taxa de retirada (inicial)</div>
+              <div id="Metric1Value" class="mt-2 text-[18px] font-semibold">—</div>
+              <div id="Metric1Sub" class="mt-1 text-[12px] text-black/40">Retirada anual / patrimônio</div>
+            </div>
+            <div class="rounded-2xl border border-black/10 bg-white p-4">
+              <div class="text-[12px] font-medium text-black/55">Horizonte analisado</div>
+              <div id="Metric2Value" class="mt-2 text-[18px] font-semibold">—</div>
+              <div class="mt-1 text-[12px] text-black/40">Definido por você</div>
+            </div>
+            <div class="rounded-2xl border border-black/10 bg-white p-4">
+              <div id="Metric3Title" class="text-[12px] font-medium text-black/55">Esgotamento (base)</div>
+              <div id="Metric3Value" class="mt-2 text-[18px] font-semibold">—</div>
+              <div id="Metric3Sub" class="mt-1 text-[12px] text-black/40">Se ocorrer no horizonte</div>
+            </div>
+          </div>
+
+          <div id="InflBlock" class="mt-4 hidden rounded-xl border border-black/10 bg-[var(--bg)] p-4">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="chip rounded-full px-3 py-1 text-[12px] text-black/70">
+                Inflação referência: <b id="InflRefTag">—</b>
+              </span>
+              <span class="chip rounded-full px-3 py-1 text-[12px] text-black/70">
+                Mínimo p/ manter poder de compra (ano final): <b id="InflLineFinal">—</b>
+              </span>
+              <span class="chip rounded-full px-3 py-1 text-[12px] text-black/70">
+                Patrimônio “real” (ano final): <b id="RealFinal">—</b>
+              </span>
+            </div>
+            <div class="mt-2 text-[12px] text-black/55">
+              Comparação opcional (não altera o cálculo). Serve para enxergar poder de compra.
+            </div>
+          </div>
+
+          <div id="Why" class="mt-4 rounded-xl border border-black/10 bg-[var(--bg)] p-4 text-[13px] leading-relaxed text-black/70">
+            Assim que você rodar a análise, aqui aparece uma explicação do cenário.
+          </div>
+
+          <details class="mt-3 rounded-xl border border-black/10 bg-white p-4">
+            <summary class="cursor-pointer text-[13px] font-semibold text-black/70">Como calculamos (simples)</summary>
+            <div id="How" class="mt-2 text-[12px] leading-relaxed text-black/60">—</div>
+          </details>
+
+          <div class="mt-5 rounded-2xl border border-black/10 bg-white p-3">
+            <div class="flex items-center justify-between px-2 pb-2">
+              <div class="text-[13px] font-semibold text-black/70">Evolução do patrimônio (nominal)</div>
+              <div class="text-[12px] text-black/45">Conservador • Base • Otimista</div>
+            </div>
+            <div class="h-[280px]">
+              <canvas id="Chart"></canvas>
+            </div>
+          </div>
+
+          <div class="mt-5 overflow-hidden rounded-2xl border border-black/10">
+            <div class="bg-white px-4 py-3 text-[13px] font-semibold text-black/70">Ano a ano (base) + indicador</div>
+            <div class="max-h-[320px] overflow-auto bg-white">
+              <table class="w-full border-collapse text-left text-[13px]">
+                <thead class="sticky top-0 bg-white">
+                <tr class="border-b border-black/10 text-black/55">
+                  <th class="px-4 py-2 font-medium">Ano</th>
+                  <th class="px-4 py-2 font-medium">Patrimônio (base)</th>
+                  <th id="TableCFHead" class="px-4 py-2 font-medium">Retirada</th>
+                  <th class="px-4 py-2 font-medium">Saúde</th>
+                </tr>
+                </thead>
+                <tbody id="TableBody">
+                  <tr><td class="px-4 py-6 text-black/45" colspan="4">Rode uma análise para ver a tabela.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="mt-4 text-[12px] text-black/45">*Em versões futuras: simulação por alocação e cenários probabilísticos.</div>
+        </div>
+
+        <div class="mt-4 rounded-2xl border border-black/10 bg-white/90 p-5 shadow-soft">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <div class="text-[13px] font-semibold text-black/70">Diagnóstico Patrimonial Completo</div>
+              <div class="mt-1 text-[12px] text-black/55 leading-relaxed">
+                Leitura estruturada + encaminhamento sugerido conforme o perfil diagnosticado, com transparência de critérios.
+              </div>
+            </div>
+            <button id="OpenDiagBottom" class="rounded-xl px-3 py-2 text-[13px] font-semibold btn-secondary">
+              Solicitar
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-12 border-t border-black/5 bg-white/60">
+    <div class="mx-auto max-w-6xl px-5 py-10">
+      <div class="grid gap-6 md:grid-cols-3">
+        <div>
+          <div class="text-[14px] font-semibold">Alta Patrimonial</div>
+          <div class="mt-2 text-[13px] text-black/60 leading-relaxed">
+            Plataforma de clareza patrimonial: simulação, diagnóstico e conexão com profissionais validados.
+          </div>
+        </div>
+
+        <div>
+          <div class="text-[13px] font-semibold text-black/70">Navegação</div>
+          <div class="mt-3 space-y-2 text-[13px]">
+            <a class="link block" href="#quem-somos">Quem somos</a>
+            <a class="link block" href="#pilares">Pilares</a>
+            <a class="link block" href="#como-funciona">Como funciona</a>
+            <a class="link block" href="#profissionais">Profissionais</a>
+            <a class="link block" href="#simulador">Simulador</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-[13px] font-semibold text-black/70">Legal & Contato</div>
+          <div class="mt-3 space-y-2 text-[13px] text-black/60">
+            <div><a class="link" href="#privacidade">Privacidade</a></div>
+            <div><a class="link" href="#termos">Termos</a></div>
+            <div class="text-[12px] text-black/50">Contato: (adicione um e-mail no próximo passo)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 rounded-2xl border border-black/10 bg-[var(--bg)] p-5">
+        <div class="text-[12px] font-semibold text-black/70">Aviso importante</div>
+        <div class="mt-2 text-[12px] text-black/60 leading-relaxed">
+          A Alta Patrimonial é uma ferramenta de simulação e diagnóstico. Não constitui recomendação de investimentos,
+          não indica produtos específicos e não substitui aconselhamento profissional individualizado.
+        </div>
+      </div>
+
+      <div class="mt-6 text-[12px] text-black/45">
+        © <span id="year"></span> Alta Patrimonial. Todos os direitos reservados.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Âncora termos (placeholder) -->
+  <div id="termos" class="anchor"></div>
+
+  <!-- MODAL Diagnóstico -->
+  <div id="DiagModal" class="fixed inset-0 z-50 hidden">
+    <div id="DiagBackdrop" class="absolute inset-0 modal-backdrop"></div>
+
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="w-full max-w-3xl rounded-2xl bg-white shadow-soft border border-black/10 overflow-hidden">
+        <div class="px-5 py-4 flex items-start justify-between gap-4" style="background: rgba(246,245,241,.8)">
+          <div>
+            <div class="text-[13px] font-semibold text-black/70">Diagnóstico Patrimonial Completo</div>
+            <div class="mt-1 text-[12px] text-black/55">
+              Responda em 2–3 minutos. Retorno por e-mail com leitura estruturada. (MVP)
+            </div>
+          </div>
+          <button id="CloseDiag" class="rounded-xl border border-black/10 bg-white px-3 py-2 text-[13px] font-semibold hover:bg-black/5">
+            Fechar
+          </button>
+        </div>
+
+        <form id="DiagForm" class="p-5">
+          <div class="grid gap-4 md:grid-cols-2">
+            <div>
+              <label class="mb-1 block text-[12px] font-medium text-black/60">Nome</label>
+              <input id="d_name" required class="h-[44px] w-full rounded-xl border border-black/10 px-3 text-[13px] ring-focus" placeholder="Seu nome" />
+            </div>
+            <div>
+              <label class="mb-1 block text-[12px] font-medium text-black/60">E-mail</label>
+              <input id="d_email" required type="email" class="h-[44px] w-full rounded-xl border border-black/10 px-3 text-[13px] ring-focus" placeholder="voce@dominio.com" />
+            </div>
+
+            <div>
+              <label class="mb-1 block text-[12px] font-medium text-black/60">Patrimônio total (aprox.)</label>
+              <input id="d_networth" class="h-[44px] w-full rounded-xl border border-black/10 px-3 text-[13px] ring-focus" placeholder="Ex.: 5.000.000" />
+              <div class="mt-1 text-[12px] text-black/45">Pode incluir investimentos + imóveis (se quiser).</div>
+            </div>
+
+            <div>
+              <label class="mb-1 block text-[12px] font-medium text-black/60">Renda mensal líquida (faixa)</label>
+              <select id="d_income" class="h-[44px] w-full rounded-xl border border-black/10 px-3 text-[13px] ring-focus">
+                <option value="">Selecione</option>
+                <option>Até R$ 15k</option>
+                <option>R$ 15k – 30k</option>
+                <option>R$ 30k – 60k</option>
+                <option>R$ 60k – 120k</option>
+                <option>Acima de R$ 120k</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="mb-1 block text-[12px] font-medium text-black/60">Moradia</label>
+              <select id="d_home" class="h-[44px] w-full rounded-xl border border-black/10 px-3 text-[13px] ring-focus">
+                <option value="">Selecione</option>
+                <option>Imóvel próprio quitado</option>
+                <option>Imóvel próprio financiado</option>
+                <option>Aluguel</option>
+                <option>Outro</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="mb-1 block text-[12px] font-medium text-black/60">Exposição internacional (dólar)</label>
+              <select id="d_fx" class="h-[44px] w-full rounded-xl border border-black/10 px-3 text-[13px] ring-focus">
+                <option value="">Selecione</option>
+                <option>Não tenho</option>
+                <option>Até 10%</option>
+                <option>10% – 25%</option>
+                <option>25% – 50%</option>
+                <option>Acima de 50%</option>
+              </select>
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="mb-1 block text-[12px] font-medium text-black/60">Composição do patrimônio (aprox.)</label>
+              <div class="grid gap-3 md:grid-cols-4">
+                <select id="d_rf" class="h-[44px] rounded-xl border border-black/10 px-3 text-[13px] ring-focus">
+                  <option value="">Renda fixa</option>
+                  <option>0–25%</option><option>25–50%</option><option>50–75%</option><option>75–100%</option>
+                </select>
+                <select id="d_rv" class="h-[44px] rounded-xl border border-black/10 px-3 text-[13px] ring-focus">
+                  <option value="">Bolsa</option>
+                  <option>0–25%</option><option>25–50%</option><option>50–75%</option><option>75–100%</option>
+                </select>
+                <select id="d_funds" class="h-[44px] rounded-xl border border-black/10 px-3 text-[13px] ring-focus">
+                  <option value="">Fundos</option>
+                  <option>0–25%</option><option>25–50%</option><option>50–75%</option><option>75–100%</option>
+                </select>
+                <select id="d_alt" class="h-[44px] rounded-xl border border-black/10 px-3 text-[13px] ring-focus">
+                  <option value="">Outros</option>
+                  <option>0–25%</option><option>25–50%</option><option>50–75%</option><option>75–100%</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="mb-1 block text-[12px] font-medium text-black/60">Objetivo principal</label>
+              <select id="d_goal" class="h-[44px] w-full rounded-xl border border-black/10 px-3 text-[13px] ring-focus">
+                <option value="">Selecione</option>
+                <option>Independência financeira</option>
+                <option>Preservação patrimonial</option>
+                <option>Renda com retiradas</option>
+                <option>Planejamento familiar / sucessório</option>
+              </select>
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="mb-1 block text-[12px] font-medium text-black/60">Observações (opcional)</label>
+              <textarea id="d_notes" rows="3" class="w-full rounded-xl border border-black/10 px-3 py-2 text-[13px] ring-focus" placeholder="Ex.: filhos, escola, custos futuros, mudança de país, etc."></textarea>
+            </div>
+          </div>
+
+          <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <div class="text-[12px] text-black/50">
+              Ao enviar, você autoriza contato para retorno do diagnóstico. (MVP)
+            </div>
+            <button type="submit" class="rounded-xl px-4 py-3 text-[13px] font-semibold btn-primary shadow-card">
+              Enviar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  document.getElementById("year").textContent = String(new Date().getFullYear());
+
+  // ===== Modal =====
+  function openDiag(){ $("DiagModal").classList.remove("hidden"); }
+  function closeDiag(){ $("DiagModal").classList.add("hidden"); }
+
+  ["OpenDiagTop","OpenDiagTopMobile","OpenDiagHero","OpenDiagHow","OpenDiagInResults","OpenDiagBottom","OpenDiagPros"].forEach(id=>{
+    const el = $(id); if(el) el.addEventListener("click", openDiag);
+  });
+
+  $("CloseDiag").addEventListener("click", closeDiag);
+  $("DiagBackdrop").addEventListener("click", closeDiag);
+  document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeDiag(); });
+
+  $("DiagForm").addEventListener("submit", (e)=>{
+    e.preventDefault();
+    alert("Recebido. Em breve você receberá o retorno do diagnóstico por e-mail (MVP).");
+    closeDiag();
+    e.target.reset();
+  });
+
+  // ===== Simulador =====
+  function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
+  function fmtBRL(n){ return Number.isFinite(n) ? n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}) : "—"; }
+  function fmtPct(dec){ return Number.isFinite(dec) ? (dec*100).toLocaleString("pt-BR",{maximumFractionDigits:2}) + "%" : "—"; }
+  function annualToMonthlyEq(rateAnnualDec){ return Math.pow(1 + rateAnnualDec, 1/12) - 1; }
+  function parseNumberBR(v){
+    const s = String(v || "").trim().replace(",", ".").replace(/[^\d.-]/g,"");
+    const n = Number(s);
+    return Number.isFinite(n) ? n : NaN;
+  }
+  function onlyDigits(s){ return (s || "").replace(/\D/g, ""); }
+  function formatBRLFromDigits(digits){
+    const n = Number(digits || "0") / 100;
+    return n.toLocaleString("pt-BR", { style:"currency", currency:"BRL" });
+  }
+  function parseBRLMasked(v){
+    const s = String(v || "")
+      .replace(/\s/g,"")
+      .replace("R$","")
+      .replace(/\./g,"")
+      .replace(",",".")
+      .replace(/[^\d.-]/g,"");
+    const n = Number(s);
+    return Number.isFinite(n) ? n : NaN;
+  }
+  function attachMoneyMask(ids){
+    ids.forEach(id=>{
+      const el = $(id);
+      if(!el) return;
+      el.addEventListener("input", () => {
+        const digits = onlyDigits(el.value);
+        el.value = formatBRLFromDigits(digits);
+      });
+      el.addEventListener("blur", () => {
+        const digits = onlyDigits(el.value);
+        el.value = formatBRLFromDigits(digits);
+      });
+    });
+  }
+
+  let mode = "sustain";
+  let chart;
+
+  function resetResults(){
+    $("HealthEmoji").textContent = "—";
+    $("HealthTitle").textContent = "Aguardando análise";
+    $("HealthDesc").textContent = "Preencha os campos e clique em “Analisar cenário”.";
+    $("Metric1Value").textContent = "—";
+    $("Metric2Value").textContent = "—";
+    $("Metric3Value").textContent = "—";
+    $("Why").textContent = "Assim que você rodar a análise, aqui aparece uma explicação do cenário.";
+    $("How").textContent = "—";
+    $("InflBlock").classList.add("hidden");
+    $("InflRefTag").textContent = "—";
+    $("InflLineFinal").textContent = "—";
+    $("RealFinal").textContent = "—";
+    $("TableBody").innerHTML = `<tr><td class="px-4 py-6 text-black/45" colspan="4">Rode uma análise para ver a tabela.</td></tr>`;
+    if(chart){ chart.destroy(); chart = null; }
+    renderEmptyChart();
+  }
+
+  function setMode(next){
+    mode = next;
+    if(mode === "build"){
+      $("btnBuild").className = "rounded-lg px-4 py-2 text-[13px] font-semibold transition text-white";
+      $("btnBuild").style.background = "var(--deep)";
+      $("btnSustain").className = "rounded-lg px-4 py-2 text-[13px] font-semibold transition text-black/60 hover:bg-black/5";
+      $("btnSustain").style.background = "transparent";
+
+      $("cfLabel").textContent = "Aporte";
+      $("Metric1Title").textContent = "Aporte anual (equivalente)";
+      $("Metric1Sub").textContent = "Aporte mensal × 12";
+      $("Metric3Title").textContent = "Patrimônio final (base)";
+      $("Metric3Sub").textContent = "No fim do horizonte";
+      $("TableCFHead").textContent = "Aporte";
+      $("StepFields").classList.add("hidden");
+    } else {
+      $("btnBuild").className = "rounded-lg px-4 py-2 text-[13px] font-semibold transition text-black/60 hover:bg-black/5";
+      $("btnBuild").style.background = "transparent";
+      $("btnSustain").className = "rounded-lg px-4 py-2 text-[13px] font-semibold transition text-white";
+      $("btnSustain").style.background = "var(--deep)";
+
+      $("cfLabel").textContent = "Retirada";
+      $("Metric1Title").textContent = "Taxa de retirada (inicial)";
+      $("Metric1Sub").textContent = "Retirada anual / patrimônio";
+      $("Metric3Title").textContent = "Esgotamento (base)";
+      $("Metric3Sub").textContent = "Se ocorrer no horizonte";
+      $("TableCFHead").textContent = "Retirada";
+      $("StepFields").classList.remove("hidden");
+    }
+    resetResults();
+  }
+
+  function simulateScenario({P0, cfMonthlyBase, cfY2, cfY3, rMonthly, months, mode}){
+    let P = P0;
+    let exhaustedAtMonth = null;
+    const yearly = [];
+
+    function flowForMonth(m){
+      if(mode !== "sustain") return cfMonthlyBase;
+      const year = Math.ceil(m / 12);
+      let stepBase = cfMonthlyBase;
+      if(year === 2 && cfY2 != null) stepBase = cfY2;
+      if(year >= 3 && cfY3 != null) stepBase = cfY3;
+      return stepBase;
+    }
+
+    for(let m=1; m<=months; m++){
+      const flow = flowForMonth(m);
+      P = P * (1 + rMonthly);
+      P = (mode === "sustain") ? (P - flow) : (P + flow);
+
+      if(P <= 0 && exhaustedAtMonth === null){
+        exhaustedAtMonth = m;
+        P = 0;
+      }
+
+      if(m % 12 === 0){
+        let sum = 0;
+        const start = m - 11;
+        for(let k=start; k<=m; k++) sum += flowForMonth(k);
+        yearly.push({ pEnd: P, cashflowYear: sum, exhausted: exhaustedAtMonth !== null && exhaustedAtMonth <= m });
+      }
+    }
+    return { yearly, exhaustedAtMonth };
+  }
+
+  function computeHealth({exhaustedYearBase, pFinal, inflFinal}){
+    if(exhaustedYearBase) return "🔴";
+    if(!Number.isFinite(inflFinal)) return "🟡";
+    if(pFinal >= inflFinal * 1.02) return "🟢";
+    if(pFinal >= inflFinal * 0.98) return "🟡";
+    return "🔴";
+  }
+
+  function renderEmptyChart(){
+    const ctx = $("Chart").getContext("2d");
+    chart = new Chart(ctx, {
+      type: "line",
+      data: { labels:[""], datasets:[{ label:"Base", data:[0], borderColor:"#0F2E2B", borderWidth:2, pointRadius:0, tension:0.25 }] },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:false}, tooltip:{enabled:false} },
+        scales:{ x:{grid:{display:false},ticks:{display:false}}, y:{grid:{color:"rgba(0,0,0,0.06)"},ticks:{display:false}} }
+      }
+    });
+  }
+
+  function renderChart(points, showInfl){
+    const labels = points.map(p => `Ano ${p.year}`);
+    const cons = points.map(p => p.conservador);
+    const base = points.map(p => p.base);
+    const opt  = points.map(p => p.otimista);
+    const infl = points.map(p => p.inflacao);
+
+    const datasets = [
+      { label:"Conservador", data:cons, borderColor:"rgba(17,24,39,.35)", borderWidth:2, pointRadius:0, tension:0.25 },
+      { label:"Base", data:base, borderColor:"#0F2E2B", borderWidth:2.6, pointRadius:0, tension:0.25 },
+      { label:"Otimista", data:opt, borderColor:"rgba(17,24,39,.75)", borderWidth:2, pointRadius:0, tension:0.25 }
+    ];
+
+    if(showInfl && infl.some(v => Number.isFinite(v))){
+      datasets.push({ label:"Inflação (referência)", data:infl, borderColor:"rgba(176,138,58,.8)", borderWidth:2, pointRadius:0, tension:0.25, borderDash:[6,6] });
+    }
+
+    if(chart) chart.destroy();
+    const ctx = $("Chart").getContext("2d");
+    chart = new Chart(ctx, {
+      type:"line",
+      data:{ labels, datasets },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ tooltip:{ callbacks:{ label:(c)=> `${c.dataset.label}: ${fmtBRL(c.parsed.y)}` } } },
+        scales:{
+          x:{ grid:{display:false}, ticks:{color:"rgba(0,0,0,.55)", maxRotation:0, autoSkip:true} },
+          y:{ grid:{color:"rgba(0,0,0,0.06)"},
+            ticks:{ color:"rgba(0,0,0,.55)", callback:(v)=>{ const n=Number(v);
+              if(n>=1_000_000) return (n/1_000_000).toFixed(1)+"M";
+              if(n>=1_000) return Math.round(n/1_000)+"k";
+              return n; } } }
+        }
+      }
+    });
+  }
+
+  function run(){
+    const P0 = parseBRLMasked($("P0").value);
+    const cfRaw = parseBRLMasked($("CF").value);
+    const cfPeriod = $("CFPeriod").value;
+
+    const yearsRaw = parseInt($("Years").value || "0", 10);
+    const years = clamp(yearsRaw, 1, 40);
+
+    const RconsPct = parseNumberBR($("Rcons").value);
+    const RbasePct = parseNumberBR($("Rbase").value);
+    const RoptPct  = parseNumberBR($("Ropt").value);
+
+    const inflRefPct = parseNumberBR($("InflRef").value);
+    const hasInfl = Number.isFinite(inflRefPct) && inflRefPct > 0;
+    const inflRef = hasInfl ? inflRefPct/100 : NaN;
+    const showInfl = $("ShowInfl").checked && hasInfl;
+
+    const cfY2Raw = parseBRLMasked(($("CFY2")?.value || "").trim());
+    const cfY3Raw = parseBRLMasked(($("CFY3")?.value || "").trim());
+    const cfY2 = (mode==="sustain" && Number.isFinite(cfY2Raw) && cfY2Raw > 0) ? cfY2Raw : null;
+    const cfY3 = (mode==="sustain" && Number.isFinite(cfY3Raw) && cfY3Raw > 0) ? cfY3Raw : null;
+
+    if(!Number.isFinite(P0) || P0 <= 0) return alert("Preencha o patrimônio.");
+    if(!Number.isFinite(cfRaw) || cfRaw < 0) return alert(mode==="sustain" ? "Preencha a retirada." : "Preencha o aporte.");
+    if(!Number.isFinite(RconsPct) || !Number.isFinite(RbasePct) || !Number.isFinite(RoptPct)) return alert("Preencha Conservador/Base/Otimista (% a.a.).");
+    if(yearsRaw < 1) return alert("Preencha o horizonte (anos).");
+
+    const months = years * 12;
+    const cfMonthlyBase = (cfPeriod === "anual") ? (cfRaw/12) : cfRaw;
+
+    const scenarios = [
+      { key:"conservador", Raa: RconsPct/100 },
+      { key:"base",       Raa: RbasePct/100 },
+      { key:"otimista",   Raa: RoptPct/100 }
+    ];
+
+    const results = {};
+    scenarios.forEach(s=>{
+      const rMonthly = annualToMonthlyEq(s.Raa);
+      results[s.key] = simulateScenario({ P0, cfMonthlyBase, cfY2, cfY3, rMonthly, months, mode });
+    });
+
+    const yBase = results.base.yearly;
+    const yCons = results.conservador.yearly;
+    const yOpt  = results.otimista.yearly;
+
+    const rows = [];
+    const points = [];
+
+    for(let y=1; y<=years; y++){
+      const pBase = yBase[y-1]?.pEnd ?? 0;
+      const pCons = yCons[y-1]?.pEnd ?? 0;
+      const pOpt  = yOpt[y-1]?.pEnd  ?? 0;
+      const cashflowYear = yBase[y-1]?.cashflowYear ?? 0;
+      const inflLine = hasInfl ? (P0 * Math.pow(1 + inflRef, y)) : NaN;
+
+      let health = "🟡";
+      if(yBase[y-1]?.exhausted) health = "🔴";
+      else if(hasInfl){
+        if(pBase >= inflLine * 1.02) health = "🟢";
+        else if(pBase >= inflLine * 0.98) health = "🟡";
+        else health = "🔴";
+      }
+
+      rows.push({ year:y, pBase, cashflowYear, health, inflLine });
+      points.push({ year:y, conservador:pCons, base:pBase, otimista:pOpt, inflacao: inflLine });
+    }
+
+    const exhaustedAtMonthBase = results.base.exhaustedAtMonth;
+    const exhaustedYearBase = exhaustedAtMonthBase ? Math.ceil(exhaustedAtMonthBase/12) : null;
+
+    const pFinal = rows[rows.length-1]?.pBase ?? 0;
+    const inflFinal = rows[rows.length-1]?.inflLine ?? NaN;
+    const overall = computeHealth({ exhaustedYearBase, pFinal, inflFinal });
+
+    $("Metric2Value").textContent = `${years} anos`;
+
+    if(mode==="sustain"){
+      const withdrawRate = (cfMonthlyBase*12)/P0;
+      $("Metric1Value").textContent = fmtPct(withdrawRate);
+      $("Metric3Value").textContent = exhaustedYearBase ? `Ano ${exhaustedYearBase}` : `> ${years} anos`;
+    } else {
+      $("Metric1Value").textContent = fmtBRL(cfMonthlyBase*12);
+      $("Metric3Value").textContent = fmtBRL(pFinal);
+    }
+
+    $("HealthEmoji").textContent = overall;
+    $("HealthTitle").textContent = overall==="🟢" ? "Saudável" : overall==="🟡" ? "Atenção" : "Risco";
+    $("HealthDesc").textContent =
+      !hasInfl
+        ? (overall==="🔴" ? "Há risco de esgotamento no cenário base." : "Sem inflação de referência: diagnóstico neutro (opcional).")
+        : (overall==="🟢" ? "Acima da linha de inflação (poder de compra preservado)." :
+           overall==="🟡" ? "Próximo da linha de inflação (poder de compra no limite)." :
+           "Abaixo da linha de inflação / ou risco de esgotamento.");
+
+    if(hasInfl){
+      $("InflBlock").classList.remove("hidden");
+      $("InflRefTag").textContent = `${inflRefPct.toLocaleString("pt-BR",{maximumFractionDigits:2})}% a.a.`;
+      $("InflLineFinal").textContent = fmtBRL(inflFinal);
+      const realFinal = pFinal / Math.pow(1 + inflRef, years);
+      $("RealFinal").textContent = fmtBRL(realFinal);
+    } else {
+      $("InflBlock").classList.add("hidden");
+    }
+
+    if(overall==="🟢"){
+      $("Why").innerHTML = `Cenário saudável: o patrimônio final (<b>${fmtBRL(pFinal)}</b>) está sólido no horizonte.`;
+      if(hasInfl) $("Why").innerHTML += ` Ele ficou acima do mínimo para manter poder de compra (<b>${fmtBRL(inflFinal)}</b>).`;
+    } else if(overall==="🟡"){
+      $("Why").innerHTML = `Cenário no limite: o patrimônio não mostra folga clara no horizonte.`;
+      if(hasInfl) $("Why").innerHTML += ` Ele ficou próximo da linha de inflação (<b>${fmtBRL(inflFinal)}</b>).`;
+      else $("Why").innerHTML += ` Se quiser comparar poder de compra, preencha a inflação (opcional).`;
+    } else {
+      $("Why").innerHTML = exhaustedYearBase
+        ? `Cenário de risco: no cenário base, há chance de esgotamento por volta do <b>ano ${exhaustedYearBase}</b>.`
+        : `Cenário de risco: o patrimônio final ficou abaixo do nível desejável no horizonte.`;
+      if(hasInfl && !exhaustedYearBase) $("Why").innerHTML += ` A linha de inflação no final é <b>${fmtBRL(inflFinal)}</b>.`;
+    }
+
+    if(mode==="sustain" && (cfY2 || cfY3)){
+      const parts = [];
+      if(cfY2) parts.push(`2º ano: ${fmtBRL(cfY2)}/mês`);
+      if(cfY3) parts.push(`3º ano+: ${fmtBRL(cfY3)}/mês`);
+      $("Why").innerHTML += `<div class="mt-2 text-[12px] text-black/60">Patamares: ${parts.join(" • ")}.</div>`;
+    }
+
+    $("How").innerHTML = `
+      <div><b>Retorno mensal equivalente:</b> r = (1 + R<sub>aa</sub>)<sup>1/12</sup> − 1</div>
+      <div class="mt-2"><b>Regra mensal:</b> primeiro rende, depois aplica o fluxo</div>
+      <div>P<sub>t+1</sub> = P<sub>t</sub>(1+r) ${mode==="sustain" ? "−" : "+"} Fluxo(t)</div>
+      <div class="mt-2"><b>Cenários:</b> retornos informados por você.</div>
+      <div class="mt-2"><b>Inflação (opcional):</b> cria a linha P*(t)=P0(1+π)^t apenas para comparação.</div>
+    `;
+
+    $("TableBody").innerHTML = rows.map(r => `
+      <tr class="border-b border-black/5">
+        <td class="px-4 py-2">${r.year}</td>
+        <td class="px-4 py-2">${fmtBRL(r.pBase)}</td>
+        <td class="px-4 py-2">${fmtBRL(r.cashflowYear)}</td>
+        <td class="px-4 py-2">${r.health}</td>
+      </tr>
+    `).join("");
+
+    renderChart(points, showInfl);
+  }
+
+  $("Run").addEventListener("click", run);
+  $("btnBuild").addEventListener("click", () => setMode("build"));
+  $("btnSustain").addEventListener("click", () => setMode("sustain"));
+
+  attachMoneyMask(["P0","CF","CFY2","CFY3","d_networth"]);
+  renderEmptyChart();
+  $("StepFields").classList.remove("hidden");
+</script>
+</body>
+</html>
